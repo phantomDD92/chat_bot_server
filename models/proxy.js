@@ -1,23 +1,13 @@
 const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const { Protocol, Status } = require("../config/const");
+const { Schema } = mongoose;
 
 const ProxySchema = new Schema({
-  url:  {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type:Number,
-    default: 0,
-  },
-  deadline: {
-    type: Date,
-  }
-}, {collection: "proxies"});
+  url: { type: String, required: true },
+  protocol: { type: String, default: Protocol.HTTP },
+  status: { type: Number, default: Status.ENABLED },
+  expiredAt: { type: Date },
+});
 
-const ProxyModel = model('proxy', ProxySchema);
-module.exports =  ProxyModel;
+const ProxyModel = mongoose.model("Proxy", ProxySchema);
+module.exports = ProxyModel;

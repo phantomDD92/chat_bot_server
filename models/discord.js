@@ -1,15 +1,10 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, SchemaTypes } = mongoose;
 
 const DicordSchema = new Schema({
-  name:  {
-    type: String,
-    required: true
-  },
-  url: {
-    type: String,
-    required: true,
-  },
+  url: { type: String, required: true },
+  accounts: [{ type: SchemaTypes.ObjectId }],
 });
 
-const DiscordModel = model('discord', DicordSchema);
+const DiscordModel = mongoose.model("Discord", DicordSchema);
 module.exports = DiscordModel;

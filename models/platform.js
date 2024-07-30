@@ -1,26 +1,11 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, SchemaTypes } = mongoose;
 
 const PlatformSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  alias: {
-    type: String,
-    required: true,
-  },
-  proxy: {
-    type: Boolean,
-    required: true
-  },
-  captcha: {
-    type: Boolean,
-    required: false,
-  },
-  bypass: {
-    type: Object
-  }
+  _id: { type: String },
+  debug: { type: Boolean, default: false },
+  accounts: [{ type: SchemaTypes.ObjectId }],
 });
 
-const PlatformModel = model('platform', PlatformSchema);
+const PlatformModel = model("Platform", PlatformSchema);
 module.exports = PlatformModel;
