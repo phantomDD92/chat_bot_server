@@ -1,6 +1,8 @@
 const express = require("express");
 // const authenticate = require("../middleware/auth.js");
 const ActorCtrl = require("../controllers/actor.js");
+const AccountCtrl = require("../controllers/account.js");
+const DiscordCtrl = require("../controllers/discord.js");
 
 const router = express.Router();
 
@@ -27,11 +29,11 @@ const router = express.Router();
 //   .put(ModelCtrl.handleSetModelStatus)
 //   .delete(ModelCtrl.handleDeleteModel)
 
-// router.route("/discord")
-//   .all(authenticate)
-//   .get(DiscordCtrl.handleLoadDiscords)
-//   .post(DiscordCtrl.handleCreateDiscord)
-//   .delete(DiscordCtrl.handleDeleteDiscord)
+router.route("/discord")
+  // .all(authenticate)
+  .get(DiscordCtrl.handleLoadDiscords)
+  .post(DiscordCtrl.handleCreateDiscord)
+  .delete(DiscordCtrl.handleDeleteDiscord)
 
 // router.route("/setting")
 //   .all(authenticate)
@@ -53,11 +55,23 @@ const router = express.Router();
 //   .all(authenticate)
 //   .get(DashboardCtrl.handleLoadStats)
 
-router.route("/actor")
+router
+  .route("/actor")
   .get(ActorCtrl.handleLoadActors)
-  .post(ActorCtrl.handleCreateActor)
-router.route("/actor/:id")
+  .post(ActorCtrl.handleCreateActor);
+router
+  .route("/actor/:id")
   .put(ActorCtrl.handleUpdateActor)
-  .delete(ActorCtrl.handleDeleteActor)
+  .delete(ActorCtrl.handleDeleteActor);
+
+router
+  .route("/account/:platform")
+  .get(AccountCtrl.handleLoadAccounts)
+  .post(AccountCtrl.handleCreateAccount);
+router
+  .route("/account/:platform/:id")
+  .put(AccountCtrl.handleUpdateAccount)
+  .post(AccountCtrl.handleUpdateStatus)
+  .delete(AccountCtrl.handleDeleteAccount);
 
 module.exports = router;

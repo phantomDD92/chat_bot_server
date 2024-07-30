@@ -1,4 +1,4 @@
-const ModelService = require("../services/model")
+const ModelService = require("../services/account")
 const PlatformService = require("../services/platform")
 const ProxyService = require("../services/proxy")
 
