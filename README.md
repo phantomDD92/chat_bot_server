@@ -1,2 +1,2 @@
-# fnc_web_server
-web api server for fancentro automation bot
+# chat_bot_server
+chat bot management server for various websites
