@@ -1,39 +1,49 @@
 const DiscordModel = require("../models/discord");
 
-const loadDiscords = () => DiscordModel.find({}).populate({
-    path: "accounts",
-    select: "actor number alias email",
-    populate: { path: "actor", select: "name" },
-  });
+const loadDiscords = () => DiscordModel.find().populate({
+  path: "actors",
+  select: "number name",
+});
 
-const createDiscord = (url) => {
-  return DiscordModel.create({ url });
+const createDiscord = ({ url, desc }) => {
+  return DiscordModel.create({ url, desc });
 };
+
+const updateDiscord = (id, { url, desc }) =>
+  DiscordModel.findByIdAndUpdate(id, { $set: { url, desc } });
+
 
 const deleteDiscord = (id) => {
   return DiscordModel.deleteOne({ _id: id });
 };
 
-const findDiscord = (url) => {
-  return DiscordModel.find({ url: url });
-};
+const findByUrl = (url) =>
+  DiscordModel.findOne({ url });
 
-const appendAccount = (id, accountId) => {
+
+const appendActor = (id, actorId) => {
   return DiscordModel.findByIdAndUpdate(id, {
-    $push: { accounts: accountId },
+    $push: { accounts: actorId },
   });
 };
 
-const removeAccount = (id, accountId) =>
-  DiscordModel.findByIdAndUpdate(id, { $pullAll: { accounts: accountId } });
+const removeActor = (id, actorId) =>
+  DiscordModel.findByIdAndUpdate(id, { $pullAll: { accounts: actorId } });
+
+const getCount = () => DiscordModel.countDocuments()
+
+const findById = (id) => DiscordModel.findById(id)
 
 const DiscordService = {
   loadDiscords,
   createDiscord,
   deleteDiscord,
-  findDiscord,
-  appendAccount,
-  removeAccount,
+  updateDiscord,
+  findByUrl,
+  findById,
+  appendActor,
+  removeActor,
+  getCount
 };
 
 module.exports = DiscordService;

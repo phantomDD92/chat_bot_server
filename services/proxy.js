@@ -42,6 +42,7 @@ const deleteProxy = (id) => {
     return ProxyModel.deleteOne({_id: id})
 }
 
+const getCount = () => ProxyModel.countDocuments()
 const ProxyService = {
     loadProxies,
     clearProxies,
@@ -49,5 +50,6 @@ const ProxyService = {
     getProxyStats,
     setProxyStatus,
     deleteProxy,
+    getCount,
 }
 module.exports = ProxyService

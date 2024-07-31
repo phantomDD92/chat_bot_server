@@ -1,34 +1,23 @@
-const ModelService = require("../services/account")
-const PlatformService = require("../services/platform")
-const ProxyService = require("../services/proxy")
+const AccountService = require("../services/account");
+const ActorService = require("../services/actor");
+const DiscordService = require("../services/discord");
+const ProxyService = require("../services/proxy");
+const { sendError, sendResult } = require("../utils/resp")
 
-const handleLoadStats = async (req, res) => {
+const handleGetStats = async (req, res) => {
     try {
-        const platform = await PlatformService.findPlatform("FNC")
-        const [totalProxyCount, activeProxyCount] = await ProxyService.getProxyStats()
-        const [totalModelCount, activeModelCount] = await ModelService.getModelStats(platform)
-        res.json({
-            success: true,
-            message: "Load Proxies",
-            payload: { 
-                proxyStats : {
-                    total : totalProxyCount,
-                    active: activeProxyCount
-                },
-                modelStats : {
-                    total : totalModelCount,
-                    active: activeModelCount
-                }
-            }
-        })
+        const actorCount = await ActorService.getCount();
+        const discordCount = await DiscordService.getCount();
+        const proxyCount = await ProxyService.getCount();
+        const [f2fCount] = await AccountService.getCount();
+        sendResult(res, { stats: { actorCount, discordCount, proxyCount, f2fCount } });
     } catch (error) {
-        console.error(error)
-        res.json({ success: false, message: error.message })
+        sendError(res, error)
     }
 }
 
 const DashboardCtrl = {
-    handleLoadStats,
+    handleGetStats,
 }
 
 module.exports = DashboardCtrl

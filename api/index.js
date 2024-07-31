@@ -3,6 +3,7 @@ const express = require("express");
 const ActorCtrl = require("../controllers/actor.js");
 const AccountCtrl = require("../controllers/account.js");
 const DiscordCtrl = require("../controllers/discord.js");
+const DashboardCtrl = require("../controllers/dashboard.js");
 
 const router = express.Router();
 
@@ -34,6 +35,10 @@ router.route("/discord")
   .get(DiscordCtrl.handleLoadDiscords)
   .post(DiscordCtrl.handleCreateDiscord)
   .delete(DiscordCtrl.handleDeleteDiscord)
+router.route("/discord/:id")
+  .post(DiscordCtrl.handleAppendActor)
+  .put(DiscordCtrl.handleUpdateDiscord)
+  .delete(DiscordCtrl.handleRemoveActor)
 
 // router.route("/setting")
 //   .all(authenticate)
@@ -51,9 +56,9 @@ router.route("/discord")
 //   .post(ManagerCtrl.handleLoginManager)
 //   .get(authenticate, ManagerCtrl.handleReloadManager)
 
-// router.route("/stats")
-//   .all(authenticate)
-//   .get(DashboardCtrl.handleLoadStats)
+router.route("/stats")
+  // .all(authenticate)
+  .get(DashboardCtrl.handleGetStats)
 
 router
   .route("/actor")

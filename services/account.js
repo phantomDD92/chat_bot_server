@@ -46,6 +46,8 @@ const deleteAccount = (id) => AccountModel.findByIdAndDelete(id);
 
 const findById = (id) => AccountModel.findById(id);
 
+const getCount = () => Promise.all([AccountModel.countDocuments({platform: "f2f"})])
+
 const AccountService = {
   loadAccounts,
   createAccount,
@@ -53,6 +55,7 @@ const AccountService = {
   setStatus,
   deleteAccount,
   findById,
+  getCount,
 };
 
 module.exports = AccountService;

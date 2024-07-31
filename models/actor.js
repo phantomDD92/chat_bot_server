@@ -6,12 +6,12 @@ const ActorSchema = new Schema({
   number: { type: Number, required: true }, // model number
   name: { type: String, required: true }, // model name
   avatar: { type: String },
-  birthday: { type: Date },       // age
+  birthday: { type: Date },
+  birthplace: { type: String },       // age
   height: { type: Number },
   weight: { type: Number },
   phone1: { type: String },
   phone2: { type: String },
-  birthplace: { type: String },
   job: { type: String },
   study: { type: String },
   hobbies: [{ type: String }],
@@ -21,6 +21,7 @@ const ActorSchema = new Schema({
   favorFood: { type: String },
   description: { type: String },
   accounts: [{ type: SchemaTypes.ObjectId, ref: "Account" }],
+  discord: {type: SchemaTypes.ObjectId, ref: "Discord" },
   createdAt: { type: Date, default: Date.now },
 });
 

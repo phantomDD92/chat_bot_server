@@ -10,15 +10,15 @@ const createActor = ({
   phone2,
   birthplace,
 }) => ActorModel.create({
-    number,
-    name,
-    birthday,
-    height,
-    weight,
-    phone1,
-    phone2,
-    birthplace,
-  });
+  number,
+  name,
+  birthday,
+  height,
+  weight,
+  phone1,
+  phone2,
+  birthplace,
+});
 
 
 const updateActor = (
@@ -48,13 +48,17 @@ const removeAccount = (id, account) => {
 };
 
 const loadActors = () =>
-  ActorModel.find({}).populate("accounts", "platform alias");
+  ActorModel.find({}).populate("accounts", "platform alias").sort("number");
 
 const findByNumber = (number) => ActorModel.findOne({ number });
 
 const findByName = (name) => ActorModel.findOne({ name });
 
 const findById = (id) => ActorModel.findById(id);
+
+const getCount = () => ActorModel.countDocuments()
+
+const setDiscord = (id, discord) => ActorModel.findByIdAndUpdate(id, { $set: { discord } });
 
 const ActorService = {
   createActor,
@@ -66,6 +70,8 @@ const ActorService = {
   findByName,
   findByNumber,
   findById,
+  getCount,
+  setDiscord,
 };
 
 module.exports = ActorService;
