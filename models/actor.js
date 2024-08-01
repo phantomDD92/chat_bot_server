@@ -21,6 +21,11 @@ const ActorSchema = new Schema({
   favorFood: { type: String },
   description: { type: String },
   accounts: [{ type: SchemaTypes.ObjectId, ref: "Account" }],
+  contents: [{
+    image: String,
+    title: String,
+    tags: String,
+  }],
   discord: {type: SchemaTypes.ObjectId, ref: "Discord" },
   createdAt: { type: Date, default: Date.now },
 });

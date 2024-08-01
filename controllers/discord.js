@@ -99,9 +99,10 @@ const handleRemoveActor = async (req, res) => {
     // check if actor is valid
     const actor = await ActorService.findById(model)
     if (!actor) throw new ApiError("model is not existed.");
-    if (model in discord.actors) {
+    console.log(actor._id, discord.get("actors"), discord.get("actors").includes(actor._id))
+    if (discord.get("actors").includes(actor._id)) {
       await DiscordService.removeActor(id, model);
-      await ActorService.setDiscord(model, undefined);
+      await ActorService.clearDiscord(actor._id);
     }
     const discords = await DiscordService.loadDiscords();
     sendResult(res, { discords });

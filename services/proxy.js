@@ -43,6 +43,7 @@ const deleteProxy = (id) => {
 }
 
 const getCount = () => ProxyModel.countDocuments()
+
 const ProxyService = {
     loadProxies,
     clearProxies,

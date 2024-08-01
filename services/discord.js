@@ -23,12 +23,12 @@ const findByUrl = (url) =>
 
 const appendActor = (id, actorId) => {
   return DiscordModel.findByIdAndUpdate(id, {
-    $push: { accounts: actorId },
+    $push: { actors: actorId },
   });
 };
 
 const removeActor = (id, actorId) =>
-  DiscordModel.findByIdAndUpdate(id, { $pullAll: { accounts: actorId } });
+  DiscordModel.findByIdAndUpdate(id, { $pull: { actors: actorId } });
 
 const getCount = () => DiscordModel.countDocuments()
 

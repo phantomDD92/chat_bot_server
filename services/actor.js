@@ -60,6 +60,8 @@ const getCount = () => ActorModel.countDocuments()
 
 const setDiscord = (id, discord) => ActorModel.findByIdAndUpdate(id, { $set: { discord } });
 
+const clearDiscord = (id) => ActorModel.findByIdAndUpdate(id, {$set: {discord : null}});
+
 const ActorService = {
   createActor,
   updateActor,
@@ -72,6 +74,7 @@ const ActorService = {
   findById,
   getCount,
   setDiscord,
+  clearDiscord
 };
 
 module.exports = ActorService;
