@@ -60,7 +60,17 @@ const getCount = () => ActorModel.countDocuments()
 
 const setDiscord = (id, discord) => ActorModel.findByIdAndUpdate(id, { $set: { discord } });
 
-const clearDiscord = (id) => ActorModel.findByIdAndUpdate(id, {$set: {discord : null}});
+const clearDiscord = (id) => ActorModel.findByIdAndUpdate(id, { $set: { discord: null } });
+
+const appendContent = (id, { image, title, tags }) =>
+  ActorModel.findByIdAndUpdate(id, { $push: { contents: { image, title, tags } } });
+
+const deleteContent = (id, contentId) =>
+  ActorModel.findByIdAndUpdate(id, { $pull: { contents: { _id: contentId } } })
+
+const clearContents = (id) => 
+  ActorModel.findByIdAndUpdate(id, { $set: { contents: [] } })
+
 
 const ActorService = {
   createActor,
@@ -74,7 +84,10 @@ const ActorService = {
   findById,
   getCount,
   setDiscord,
-  clearDiscord
+  clearDiscord,
+  appendContent,
+  deleteContent,
+  clearContents,
 };
 
 module.exports = ActorService;

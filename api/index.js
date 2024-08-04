@@ -1,4 +1,19 @@
 const express = require("express");
+const multer  = require('multer')
+const fs = require('fs')
+const { v4: uuidv4 } = require("uuid")
+const storage = multer.diskStorage({
+  destination: async function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    const fileName = uuidv4();
+    cb(null, fileName + '.jpg')
+  }
+})
+
+const upload = multer({ storage: storage })
+
 // const authenticate = require("../middleware/auth.js");
 const ActorCtrl = require("../controllers/actor.js");
 const AccountCtrl = require("../controllers/account.js");
@@ -59,11 +74,16 @@ router.route("/stats")
 router
   .route("/actor")
   .get(ActorCtrl.handleLoadActors)
-  .post(ActorCtrl.handleCreateActor);
-router
-  .route("/actor/:id")
+  .post(ActorCtrl.handleCreateActor)
   .put(ActorCtrl.handleUpdateActor)
   .delete(ActorCtrl.handleDeleteActor);
+
+router
+  .route("/actor/:id")
+  .get(ActorCtrl.handleGetContent)
+  .post(upload.single('image'), ActorCtrl.handleAppendContent)
+  .delete(ActorCtrl.handleDeleteContent)
+  .put(ActorCtrl.handleClearContents)
 
 router
   .route("/account/:platform")

@@ -30,10 +30,10 @@ const handleCreateActor = async (req, res) => {
 
 const handleDeleteActor = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
     const actor = await ActorService.findById(id);
     if (!actor)
-        throw new ApiError("model is not existed.")
+      throw new ApiError("model is not existed.")
     const accounts = actor.get("accounts");
     if (accounts.length > 0)
       throw new ApiError(
@@ -51,8 +51,7 @@ const handleDeleteActor = async (req, res) => {
 
 const handleUpdateActor = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { number, name, ...params } = req.body;
+    const { id, number, name, ...params } = req.body;
     let actor = await ActorService.findByName(name);
     if (actor && actor._id != id)
       throw new ApiError(`model name(${name}) is already existed.`);
@@ -67,11 +66,68 @@ const handleUpdateActor = async (req, res) => {
   }
 };
 
+const handleGetContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let actor = await ActorService.findById(id);
+    if (!actor)
+      throw new ApiError(`model is not existed.`);
+    sendResult(res, { contents: actor.get("contents") });
+  } catch (error) {
+    sendError(res, error);
+  }
+}
+
+const handleAppendContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const { title, tags } = req.body;
+    await ActorService.appendContent(id, { image: filename, title, tags });
+    let actor = await ActorService.findById(id);
+    if (!actor)
+      throw new ApiError(`model is not existed.`);
+    sendResult(res, { contents: actor.get("contents") });
+  } catch (error) {
+    sendError(res, error);
+  }
+}
+
+const handleDeleteContent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content } = req.body;
+    await ActorService.deleteContent(id, content);
+    let actor = await ActorService.findById(id);
+    if (!actor)
+      throw new ApiError(`model is not existed.`);
+    sendResult(res, { contents: actor.get("contents") });
+  } catch (error) {
+    sendError(res, error);
+  }
+}
+
+const handleClearContents = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ActorService.clearContents(id);
+    let actor = await ActorService.findById(id);
+    if (!actor)
+      throw new ApiError(`model is not existed.`);
+    sendResult(res, { contents: actor.get("contents") });
+  } catch (error) {
+    sendError(res, error);
+  }
+}
 const ActorCtrl = {
   handleLoadActors,
   handleCreateActor,
   handleDeleteActor,
   handleUpdateActor,
+  handleGetContent,
+  handleAppendContent,
+  handleDeleteContent,
+  handleClearContents
 };
 
 module.exports = ActorCtrl;
