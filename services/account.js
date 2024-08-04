@@ -3,7 +3,6 @@ const AccountModel = require("../models/account");
 const loadAccounts = (platform) =>
   AccountModel.find({ platform })
     .populate("actor", "name")
-    .populate("discord", "url")
     .sort("number");
 
 const createAccount = (
@@ -40,7 +39,7 @@ const updateAccount = (
   });
 
 const setStatus = (id, status) =>
-  AccountModel.findByIdAndUpdate(id, { $set: status });
+  AccountModel.findByIdAndUpdate(id, { $set: {status} });
 
 const deleteAccount = (id) => AccountModel.findByIdAndDelete(id);
 

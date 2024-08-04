@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 // app.use("/", authRouter);
 // app.use("/", postRouter);
-app.use("/api", apiRouter)
+app.use("/api", (req, res, next) => { console.log(req.path); next();}, apiRouter)
 // gets the static files from the build folder
 app.get('*', (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'))

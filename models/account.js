@@ -9,7 +9,6 @@ const AccountSchema = new Schema({
   alias: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  discord: { type: SchemaTypes.ObjectId, ref: "Discord" },
   status: { type: Boolean, default: false },
   lastError: { type: String, default: '' },
   description: { type: String, default: '' },

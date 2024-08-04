@@ -4,31 +4,27 @@ const ActorCtrl = require("../controllers/actor.js");
 const AccountCtrl = require("../controllers/account.js");
 const DiscordCtrl = require("../controllers/discord.js");
 const DashboardCtrl = require("../controllers/dashboard.js");
+const ProxyCtrl = require("../controllers/proxy.js");
 
 const router = express.Router();
 
-// router.route("/proxy")
+router.route("/proxy")
 //   .all(authenticate)
-//   .get(ProxyCtrl.handleLoadProxies)
-//   .post(ProxyCtrl.handleAddProxies)
-//   .put(ProxyCtrl.handleChangeProxyStatus)
-//   .delete(ProxyCtrl.handleClearProxies);
+  .get(ProxyCtrl.handleLoadProxies)
+  .post(ProxyCtrl.handleAddProxies)
+  .put(ProxyCtrl.handleChangeProxyStatus)
+  .delete(ProxyCtrl.handleClearProxies);
 
-// router.route("/proxy/:id")
-//   .all(authenticate)
-//   .put(ProxyCtrl.handleSetProxyStatus)
-//   .delete(ProxyCtrl.handleDeleteProxy);
+router.route("/proxy/:id")
+  // .all(authenticate)
+  .put(ProxyCtrl.handleSetProxyStatus)
+  .delete(ProxyCtrl.handleDeleteProxy);
 
-// router.route("/model")
-//   .all(authenticate)
-//   .get(ModelCtrl.handleLoadModels)
-//   .post(ModelCtrl.handleCreateModel)
+router.route("/account/:platform")
+  .get(AccountCtrl.handleLoadAccounts)
 
-// router.route("/model/:id")
-//   .all(authenticate)
-//   .post(ModelCtrl.handleUpdateModel)
-//   .put(ModelCtrl.handleSetModelStatus)
-//   .delete(ModelCtrl.handleDeleteModel)
+router.route("/account/:platform/:id")
+  .post(AccountCtrl.handleUpdateStatus)
 
 router.route("/discord")
   // .all(authenticate)

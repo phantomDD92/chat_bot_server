@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const ProxySchema = new Schema({
   url: { type: String, required: true },
   protocol: { type: String, default: Protocol.HTTP },
-  status: { type: Number, default: Status.ENABLED },
+  status: { type: Boolean, default: true },
   expiredAt: { type: Date },
 });
 

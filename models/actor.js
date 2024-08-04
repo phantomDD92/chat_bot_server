@@ -26,6 +26,7 @@ const ActorSchema = new Schema({
     title: String,
     tags: String,
   }],
+  contentUpdated: {type: Boolean, default: false},
   discord: {type: SchemaTypes.ObjectId, ref: "Discord" },
   createdAt: { type: Date, default: Date.now },
 });

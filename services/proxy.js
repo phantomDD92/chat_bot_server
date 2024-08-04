@@ -3,11 +3,11 @@ const ProxyModel = require("../models/proxy")
 const Proxy = require("../models/proxy")
 
 const loadProxies = () => {
-    return Proxy.find({}, 'url deadline status')
+    return Proxy.find({})
 }
 
 const clearProxies = () => {
-    return Proxy.deleteMany({ type: "http" })
+    return Proxy.deleteMany({})
 }
 
 const setProxyStatus = (id, status) => {
@@ -28,9 +28,9 @@ const addProxies = (proxies, deadline) => {
             insertOne: {
                 document: {
                     url: proxy,
-                    type: 'http',
-                    status: Status.ACTIVE,
-                    deadline: deadline,
+                    protocol: 'http',
+                    status: true,
+                    expiredAt: deadline,
                 }
             }
         });

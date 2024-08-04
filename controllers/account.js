@@ -19,7 +19,8 @@ const handleCreateAccount = async (req, res) => {
     const { actor, ...params } = req.body;
     let currActor = await ActorService.findById(actor);
     if (!currActor) throw new ApiError(`model is not existed.`);
-    await AccountService.createAccount(platform, currActor, params);
+    const account = await AccountService.createAccount(platform, currActor, params);
+    await ActorService.appendAccount(actor, account._id)
     const accounts = await AccountService.loadAccounts(platform);
     sendResult(res, { accounts });
   } catch (error) {
@@ -33,6 +34,7 @@ const handleDeleteAccount = async (req, res) => {
     const { id, platform } = req.params;
     const account = await AccountService.findById(id);
     if (!account) throw new ApiError("account is not existed.");
+    await ActorService.removeAccount(account.actor, id)
     await AccountService.deleteAccount(id);
     const accounts = await AccountService.loadAccounts(platform);
     sendResult(res, { accounts });
