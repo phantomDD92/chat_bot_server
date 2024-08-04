@@ -1,24 +1,25 @@
+const { AdminRole } = require("../config/const")
 const ManagerModel = require("../models/manager")
 const bcrypt = require('bcryptjs')
 
-const createManager = (username, password) => {
-    return ManagerModel.create({ username, password: bcrypt.hashSync(password, 12) })
+const createManager = (name, password) => {
+    return ManagerModel.create({  name, password: bcrypt.hashSync(password, 12) })
 }
 
-const findManager = (username) => {
-    return ManagerModel.findOne({ username })
+const findByName = (name) => {
+    return ManagerModel.findOne({ name })
 }
 
 const loadManagers = () => {
-    return ManagerModel.find({}, 'username date');
+    return ManagerModel.find({role: AdminRole.NORMAL}, 'name createdAt');
 }
 
 const deleteManager = (id) => {
     return ManagerModel.deleteOne({_id: id})
 }
 
-const findManagerById = (id) => {
-    return ManagerModel.findById(id);
+const findById = (id) => {
+    return ManagerModel.findById(id, "name role createdAt");
 }
 
 const changePassword = (id, password) => {
@@ -26,10 +27,10 @@ const changePassword = (id, password) => {
 }
 const ManagerService = {
     createManager,
-    findManager,
+    findByName,
     loadManagers,
     deleteManager,
-    findManagerById,
+    findById,
     changePassword
 }
 

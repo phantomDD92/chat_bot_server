@@ -20,6 +20,7 @@ const AccountCtrl = require("../controllers/account.js");
 const DiscordCtrl = require("../controllers/discord.js");
 const DashboardCtrl = require("../controllers/dashboard.js");
 const ProxyCtrl = require("../controllers/proxy.js");
+const ManagerCtrl = require("../controllers/manager.js");
 
 const router = express.Router();
 
@@ -56,12 +57,12 @@ router.route("/discord/:id")
 //   .get(SettingCtrl.handleLoadSetting)
 //   .post(SettingCtrl.handleUpdateSetting)
 
-// router.route("/manager")
+router.route("/manager")
 //   .all(authenticate)
-//   .get(ManagerCtrl.handleLoadManagers)
-//   .post(ManagerCtrl.handleCreateManager)
-//   .put(ManagerCtrl.handleChangePassword)
-//   .delete(ManagerCtrl.handleDeleteManager)
+  .get(ManagerCtrl.handleLoadManagers)
+  .post(ManagerCtrl.handleCreateManager)
+  .put(ManagerCtrl.handleChangePassword)
+  .delete(ManagerCtrl.handleDeleteManager)
 
 // router.route("/auth")
 //   .post(ManagerCtrl.handleLoginManager)

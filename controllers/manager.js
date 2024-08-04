@@ -7,11 +7,11 @@ dotenv.config();
 
 const handleCreateManager = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await ManagerService.findManager(username)
-    if (user) throw new Error(`Manager(${username}) is already existed`)
+    const { name, password } = req.body;
+    const user = await ManagerService.findByName(name)
+    if (user) throw new Error(`Manager(${name}) is already existed`)
     if (password.length < 6) throw new Error("Password length is too short")
-    await ManagerService.createManager(username, password);
+    await ManagerService.createManager(name, password);
     const managers = await ManagerService.loadManagers();
     res.json({ success: true, message: "Create Manager", payload: { managers } })
   } catch (error) {
@@ -22,16 +22,16 @@ const handleCreateManager = async (req, res) => {
 
 const handleLoginManager = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await ManagerService.findManager(username)
+    const { name, password } = req.body;
+    const user = await ManagerService.findByName(name)
     if (!user)
-      throw new Error(`Manager(${username}) is not registered`)
+      throw new Error(`Manager(${name}) is not registered`)
     const passwordCompare = await bcrypte.compare(password, user.password);
     if (!passwordCompare) {
       throw new Error("The password is incorrect");
     }
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY || "SECRET_KEY_FNC", { expiresIn: "1h" });
-    res.json({ success: true, message: "Login Manager", payload: { username, token } })
+    res.json({ success: true, message: "Login Manager", payload: { name, token } })
   } catch (error) {
     console.error(error)
     res.json({ success: false, message: error.message })
@@ -40,10 +40,10 @@ const handleLoginManager = async (req, res) => {
 
 const handleDeleteManager = async (req, res) => {
   try {
-    const { username } = req.body;
-    const user = await ManagerService.findManager(username)
+    const { name } = req.body;
+    const user = await ManagerService.findByName(name)
     if (!user)
-      throw new Error(`Manager(${username}) is not found`)
+      throw new Error(`Manager(${name}) is not found`)
     await ManagerService.deleteManager(user._id)
     const managers = await ManagerService.loadManagers()
     res.json({ success: true, message: "Delete Manager", payload: {managers} })
@@ -65,10 +65,10 @@ const handleLoadManagers = async (req, res) => {
 
 const handleChangePassword = async (req, res) => {
   try {
-    const { username, password, newPassword } = req.body;
-    const user = await ManagerService.findManager(username)
+    const { name, password, newPassword } = req.body;
+    const user = await ManagerService.findByName(name)
     if (!user)
-      throw new Error(`Manager(${username}) is not registered`)
+      throw new Error(`Manager(${name}) is not registered`)
     const passwordCompare = await bcrypte.compare(password, user.password);
     if (!passwordCompare) {
       throw new Error("The old password is incorrect");
