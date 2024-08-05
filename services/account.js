@@ -1,3 +1,4 @@
+const { Platform } = require("../config/const");
 const AccountModel = require("../models/account");
 
 const loadAccounts = (platform) =>
@@ -39,13 +40,18 @@ const updateAccount = (
   });
 
 const setStatus = (id, status) =>
-  AccountModel.findByIdAndUpdate(id, { $set: {status} });
+  AccountModel.findByIdAndUpdate(id, { $set: { status } });
 
-const deleteAccount = (id) => AccountModel.findByIdAndDelete(id);
+const deleteAccount = (id) =>
+  AccountModel.findByIdAndDelete(id);
 
-const findById = (id) => AccountModel.findById(id);
+const findById = (id) =>
+  AccountModel.findById(id);
 
-const getCount = () => Promise.all([AccountModel.countDocuments({platform: "f2f"})])
+const getCount = () =>
+  Promise.all([
+    AccountModel.countDocuments({ platform: Platform.F2F })
+  ])
 
 const AccountService = {
   loadAccounts,

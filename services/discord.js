@@ -1,9 +1,11 @@
 const DiscordModel = require("../models/discord");
 
-const loadDiscords = () => DiscordModel.find().populate({
-  path: "actors",
-  select: "number name",
-});
+const loadDiscords = () =>
+  DiscordModel.find()
+    .populate({
+      path: "actors",
+      select: "number name",
+    });
 
 const createDiscord = ({ url, desc }) => {
   return DiscordModel.create({ url, desc });

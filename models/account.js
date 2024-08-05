@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { Status } = require("../config/const");
 const { Schema, SchemaTypes } = mongoose;
 
 const AccountSchema = new Schema({
@@ -12,6 +11,7 @@ const AccountSchema = new Schema({
   status: { type: Boolean, default: false },
   lastError: { type: String, default: '' },
   description: { type: String, default: '' },
+  params: {},
   updatedAt: { type: Date, default: Date.now },
   createdAt: { type: Date, default: Date.now },
 });

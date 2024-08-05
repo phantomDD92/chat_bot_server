@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const db = () => {
   try {
-    console.log(process.env.DB_CONNETION_STRING);
     mongoose
       .connect(process.env.DB_CONNETION_STRING.toString(), {
         useNewUrlParser: true,
@@ -10,10 +9,10 @@ const db = () => {
         // useCreateIndex: true
       })
       .then(() => {
-        console.log("connected");
+        console.log("db connected");
       });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

@@ -1,6 +1,5 @@
 const express = require("express");
-const multer  = require('multer')
-const fs = require('fs')
+const multer = require('multer')
 const { v4: uuidv4 } = require("uuid")
 const storage = multer.diskStorage({
   destination: async function (req, file, cb) {
@@ -14,40 +13,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-// const authenticate = require("../middleware/auth.js");
+const authenticate = require("../middleware/auth.js");
 const ActorCtrl = require("../controllers/actor.js");
 const AccountCtrl = require("../controllers/account.js");
 const DiscordCtrl = require("../controllers/discord.js");
 const DashboardCtrl = require("../controllers/dashboard.js");
 const ProxyCtrl = require("../controllers/proxy.js");
 const ManagerCtrl = require("../controllers/manager.js");
+const CommentCtrl = require("../controllers/comment.js");
+const HistoryCtrl = require("../controllers/history.js");
 
 const router = express.Router();
 
 router.route("/proxy")
-//   .all(authenticate)
+  .all(authenticate)
   .get(ProxyCtrl.handleLoadProxies)
   .post(ProxyCtrl.handleAddProxies)
   .put(ProxyCtrl.handleChangeProxyStatus)
   .delete(ProxyCtrl.handleClearProxies);
 
 router.route("/proxy/:id")
-  // .all(authenticate)
+  .all(authenticate)
   .put(ProxyCtrl.handleSetProxyStatus)
   .delete(ProxyCtrl.handleDeleteProxy);
 
-router.route("/account/:platform")
-  .get(AccountCtrl.handleLoadAccounts)
-
-router.route("/account/:platform/:id")
-  .post(AccountCtrl.handleUpdateStatus)
 
 router.route("/discord")
-  // .all(authenticate)
+  .all(authenticate)
   .get(DiscordCtrl.handleLoadDiscords)
   .post(DiscordCtrl.handleCreateDiscord)
   .delete(DiscordCtrl.handleDeleteDiscord)
 router.route("/discord/:id")
+  .all(authenticate)
   .post(DiscordCtrl.handleAppendActor)
   .put(DiscordCtrl.handleUpdateDiscord)
   .delete(DiscordCtrl.handleRemoveActor)
@@ -58,22 +55,23 @@ router.route("/discord/:id")
 //   .post(SettingCtrl.handleUpdateSetting)
 
 router.route("/manager")
-//   .all(authenticate)
+  .all(authenticate)
   .get(ManagerCtrl.handleLoadManagers)
   .post(ManagerCtrl.handleCreateManager)
   .put(ManagerCtrl.handleChangePassword)
   .delete(ManagerCtrl.handleDeleteManager)
 
-// router.route("/auth")
-//   .post(ManagerCtrl.handleLoginManager)
-//   .get(authenticate, ManagerCtrl.handleReloadManager)
+router.route("/auth")
+  .post(ManagerCtrl.handleLoginManager)
+  .get(authenticate, ManagerCtrl.handleReloadManager)
 
 router.route("/stats")
-  // .all(authenticate)
+  .all(authenticate)
   .get(DashboardCtrl.handleGetStats)
 
 router
   .route("/actor")
+  .all(authenticate)
   .get(ActorCtrl.handleLoadActors)
   .post(ActorCtrl.handleCreateActor)
   .put(ActorCtrl.handleUpdateActor)
@@ -81,6 +79,7 @@ router
 
 router
   .route("/actor/:id")
+  .all(authenticate)
   .get(ActorCtrl.handleGetContent)
   .post(upload.single('image'), ActorCtrl.handleAppendContent)
   .delete(ActorCtrl.handleDeleteContent)
@@ -88,12 +87,32 @@ router
 
 router
   .route("/account/:platform")
+  .all(authenticate)
   .get(AccountCtrl.handleLoadAccounts)
   .post(AccountCtrl.handleCreateAccount);
+
 router
   .route("/account/:platform/:id")
+  .all(authenticate)
   .put(AccountCtrl.handleUpdateAccount)
   .post(AccountCtrl.handleUpdateStatus)
   .delete(AccountCtrl.handleDeleteAccount);
 
+router
+  .route("/comment")
+  .all(authenticate)
+  .get(CommentCtrl.handleLoadComments)
+  .post(CommentCtrl.handleCreateComment)
+  .delete(CommentCtrl.handleClearComments);
+
+router
+  .route("/comment/:id")
+  .all(authenticate)
+  .delete(CommentCtrl.handleDeleteComment);
+
+router
+  .route("/history/:accountId")
+  .all(authenticate)
+  .get(HistoryCtrl.handleLoadHistories);
+  
 module.exports = router;

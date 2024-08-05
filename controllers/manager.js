@@ -83,7 +83,7 @@ const handleChangePassword = async (req, res) => {
 
 const handleReloadManager = async (req, res) => {
   try {
-    res.json({ success: true, message: "Reload Manager", payload: {username: req.manager.username} })
+    res.json({ success: true, message: "Reload Manager", payload: {name: req.manager.name} })
   } catch (error) {
     console.error(error)
     res.json({ success: false, message: error.message })
