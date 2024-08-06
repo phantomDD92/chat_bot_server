@@ -13,7 +13,7 @@ powered by JWT and local storage
 performance optimizations
 
 ## Installation
-git clone git@github.com:the-road-to-graphql/fullstack-apollo-express-mongodb-boilerplate.git
+git clone https://github.com/phantomDD92/chat_bot_server.git
 
 cd chat_bot_server
 
